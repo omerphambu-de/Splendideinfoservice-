@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Splendide Info Service - Accueil</title>
+<style>
+/* ===== GLOBAL ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #eef2f7; color: #333; line-height: 1.6; }
+a { text-decoration: none; color: inherit; }
+h1,h2,h3 { margin-bottom: 15px; }
+
+/* ===== HEADER / SLIDER ===== */
+.slider { position: relative; width: 100%; height: 500px; overflow: hidden; }
+.slide { position: absolute; width: 100%; height: 100%; background-size: cover; background-position: center; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 0 20px; }
+.slide.active { opacity: 1; }
+.slide h1 { font-size: 3em; display: flex; flex-direction: column; align-items: center; gap: 15px; background: rgba(0,0,0,0.4); padding: 15px 20px; border-radius: 15px; }
+.slide h1 img { width: 180px; height: 150px; object-fit: contain; }
+.slide p { font-size: 1.4em; margin: 20px 0; background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: 10px; }
+.slide a { background: #2575fc; color: white; padding: 15px 30px; border-radius: 30px; font-weight: bold; transition: all 0.3s ease; }
+.slide a:hover { background: #6a11cb; transform: scale(1.05); }
+
+/* ===== MENU FIXE ===== */
+.menu { position: sticky; top: 0; width: 100%; background-color: #d9ecff; display: flex; justify-content: center; gap: 40px; padding: 15px 0; border-bottom: 2px solid #003580; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.menu a { color: #003580; font-weight: bold; font-size: 1.1em; transition: 0.3s; }
+.menu a:hover { color: #6a11cb; transform: translateY(-3px); }
+
+/* ===== SECTIONS ===== */
+section { padding: 60px 20px; text-align: center; max-width: 1200px; margin: 40px auto; }
+.section-title { font-size: 2.5em; margin-bottom: 40px; font-weight: bold; color: #003580; }
+
+/* ===== RÉALISATIONS ===== */
+.photos { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 25px; }
+.photos .card { background: linear-gradient(145deg, #2575fc, #6a11cb); color: white; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); overflow: hidden; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
+.photos .card:hover { transform: translateY(-10px); box-shadow: 0 15px 25px rgba(0,0,0,0.3); }
+.photos img { width: 100%; height: 200px; object-fit: cover; border-bottom: 2px solid rgba(255,255,255,0.2); }
+.photos h3 { margin: 15px; font-size: 1.4em; font-weight: bold; }
+.photos p { margin: 0 15px 15px; font-size: 1em; line-height: 1.5; }
+.photos p strong { color: #ffd700; }
+
+/* ===== MODALS ===== */
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.85); }
+.modal-content { margin: 5% auto; width: 90%; max-width: 800px; background-color: #fff; border-radius: 12px; padding: 20px; text-align: center; animation: fadeIn 0.3s ease-in-out; }
+.modal-content img { width: 60%; margin: 15px 0; border-radius: 10px; }
+.close-btn { float: right; font-size: 1.5em; font-weight: bold; cursor: pointer; }
+
+/* ===== BUREAUTIQUE ===== */
+.bureautique-card { max-width:900px; margin:0 auto; padding:40px; border-radius:15px; background: linear-gradient(180deg,#2575fc 0%,#1f59d1 100%); box-shadow:0 8px 20px rgba(0,0,0,0.12); font-size:1.1em; line-height:1.8; color:#fff; text-align:justify; border:1px solid rgba(255,255,255,0.12); }
+
+/* ===== AVANTAGES ===== */
+.advantages { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 25px; margin-top: 30px; }
+.adv-card { background-color: #2575fc; padding: 30px 20px; border-radius: 15px; box-shadow: 0 6px 18px rgba(0,0,0,0.12); transition: transform 0.3s; color:white; }
+.adv-card:hover { transform: translateY(-5px); }
+.adv-card h3 { margin-top: 0; color:white; }
+
+/* ===== TÉMOIGNAGES STYLE WHATSAPP ===== */
+.testimonials { display: grid; grid-template-columns: 1fr; gap: 25px; justify-items: center; margin-top: 30px; }
+.testimonial { display: flex; gap: 15px; align-items: flex-start; max-width: 700px; }
+.testimonial img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+.testimonial-text { background: linear-gradient(135deg, #34B7F1, #25D366); color: white; padding: 15px 20px; border-radius: 20px; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-width: 500px; }
+.testimonial-text.left::after { content: ''; position: absolute; top: 15px; left: -12px; width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-right: 12px solid #25D366; }
+.testimonial-text.right::after { content: ''; position: absolute; top: 15px; right: -12px; width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 12px solid #25D366; }
+
+/* ===== CONTACT ===== */
+.contact-info a { display: inline-block; margin: 10px; padding: 12px 25px; border-radius: 30px; text-decoration: none; color: white; background-color: #2575fc; transition: 0.3s; font-weight:bold; }
+.contact-info a:hover { background-color: #6a11cb; transform: scale(1.05); }
+
+/* ===== FOOTER ===== */
+footer { background-color: #003580; color: white; text-align: center; padding: 40px 0; margin-top: 60px; font-size: 0.95em; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){ .slide h1 { font-size:2em; } .slide p { font-size:1em; } .photos,.advantages,.testimonials{grid-template-columns:1fr;} .testimonial{flex-direction:column; align-items:center;} .testimonial-text{max-width:100%;} .testimonial-text.left::after, .testimonial-text.right::after{display:none;} }
+@media(max-width:480px){ .slide h1 { font-size:1.5em; } .slide p { font-size:0.9em; } } </style>
+
+</head>
+<body>
+
+<!-- SLIDER -->
+
+<div class="slider">
+  <div class="slide active" style="background-image:url('jk.jpg');">
+    <h1><img src="loi.png" alt="Logo SIS"> Bienvenue chez Splendide Info Service</h1>
+    <p>Des solutions professionnelles à votre service</p>
+  </div>
+  <div class="slide" style="background-image:url('moi.webp');">
+    <h1><img src="loi.png" alt="Logo SIS"> Un service fiable et rapide</h1>
+    <p>Gestion, secrétariat et technologies modernes</p>
+  </div>
+  <div class="slide" style="background-image:url('photo.jpg');">
+    <h1><img src="loi.png" alt="Logo SIS"> Professionnalisme garanti</h1>
+    <p>Votre satisfaction est notre priorité</p>
+    <a href="services.html">Voir nos services</a>
+  </div>
+</div>
+
+<!-- MENU -->
+
+<nav class="menu">
+  <a href="index.html">Accueil</a>
+  <a href="services.html">Nos services</a>
+  <a href="Nos Tarifs.html">Nos tarifs</a>
+  <a href="A propos.html">À propos</a>
+</nav>
+
+<!-- RÉALISATIONS -->
+
+<section>
+  <h2 class="section-title">Nos Réalisations</h2>
+  <div class="photos" id="photos-container"></div>
+</section>
+
+<!-- BUREAUTIQUE -->
+
+<section>
+  <h2 class="section-title" style="color:#003580;">Notre Bureautique</h2>
+  <div class="bureautique-card">
+    Notre service de bureautique offre un accompagnement professionnel, conçu pour répondre aux besoins des particuliers, étudiants, entreprises et institutions. Nous prenons en charge la rédaction, la mise en forme et la préparation de tous types de documents administratifs, académiques ou professionnels. Notre expertise couvre également l’assistance informatique, l’orientation dans l’utilisation des outils numériques ainsi que l’optimisation des procédures de travail et de gestion documentaire. Grâce à une approche rigoureuse, un sens élevé du détail et une disponibilité constante, nous garantissons des prestations fiables, rapides et adaptées aux exigences de chaque client. Votre productivité, votre organisation et la qualité de vos supports deviennent notre priorité.
+  </div>
+</section>
+
+<!-- POURQUOI NOUS CHOISIR -->
+
+<section>
+  <h2 class="section-title">Pourquoi nous choisir</h2>
+  <div class="advantages">
+    <div class="adv-card"><h3>Rapidité et efficacité</h3><p>Nous intervenons rapidement pour résoudre vos besoins informatiques, sans compromettre la qualité du service.</p></div>
+    <div class="adv-card"><h3>Expertise professionnelle</h3><p>Notre équipe est composée de spécialistes qualifiés, capables de gérer tout projet avec compétence et rigueur.</p></div>
+    <div class="adv-card"><h3>Qualité et fiabilité</h3><p>Chaque prestation est réalisée avec soin, pour garantir des solutions durables et un service digne de confiance.</p></div>
+  </div>
+</section>
+
+<!-- TÉMOIGNAGES -->
+
+<section>
+  <h2 class="section-title">Témoignages clients</h2>
+  <div class="testimonials">
+    <div class="testimonial"><img src="IMG_7069.jpg" alt="Michel B."><div class="testimonial-text left"><p>"Excellente prestation, très satisfait du service !"</p><strong>- Michel B.</strong></div></div>
+    <div class="testimonial"><img src="photo.jpg" alt="Laure P."><div class="testimonial-text right"><p>"Rapide et professionnel, je recommande vivement."</p><strong>- Laure P.</strong></div></div>
+    <div class="testimonial"><img src="photo-bureautique.jpg" alt="Samuel R."><div class="testimonial-text left"><p>"Une équipe à l'écoute et efficace pour toutes nos demandes."</p><strong>- Samuel R.</strong></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+
+<section>
+  <h2 class="section-title">Contact rapide</h2>
+  <div class="contact-info">
+    <a href="tel:050146003">Appel direct : 050 146 003</a>
+   <a href="https://wa.me/243904649754?text=Bonjour%20SIS" target="_blank">💬 WhatsApp</a>
+
+    <a href="mailto:omerphambu@gmail.com" class="return-btn">Envoyer un Email à SIS</a>
+    <a href="https://www.facebook.com/" target="_blank">Facebook</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Grand+March%C3%A9+Jane+Vialle,+Pointe+Noire" target="_blank">
+    <span style="color:red; font-weight:bold;">📍 omerphambu@gmail.com - Grand Marché</span>
+</a>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 Splendide Info Service (SIS) - Tous droits réservés
+</footer>
+
+<script>
+// ===== RÉALISATIONS DYNAMIQUES =====
+const realizations = [
+  {img:'calendrier.jpg', title:'Les calendriers personnalisés', desc:'Création de calendriers uniques adaptés aux besoins des entreprises, écoles et particuliers.', auteur:'Pétronie Julia Mabika'},
+  {img:'formation.webp', title:'Formation en informatique', desc:'Séances pratiques pour renforcer les compétences en bureautique, informatique et outils numériques.', auteur:'Pétronie Julia Mabika'},
+  {img:'POUDRE QUASIL.jpg', title:'Étiquettes de qualité', desc:'Conception d’étiquettes professionnelles et résistantes pour produits alimentaires, cosmétiques ou commerciaux.', auteur:'Pétronie Julia Mabika'},
+  {img:'plasfication.jpg', title:'Plastification fiable', desc:'Protection durable de vos documents importants grâce à une plastification propre et solide.', auteur:'Pétronie Julia Mabika et Omer Phambu'},
+  {img:'scanne.jpg', title:'Scannage haute ou basse résolution', desc:'Numérisation claire et précise de tous vos documents, photos et archives.', auteur:'Pétronie Julia Mabika et Omer Phambu'},
+  {img:'reportage.webp', title:'Reportage & Photographie', desc:'Captures professionnelles pour événements, produits, portraits et reportages.', auteur:'Omer Phambu'},
+  {img:'iphone.webp', title:'Mise à jour & Installation d’applications iPhone & Android', desc:'Assistance complète pour installation d’applications, mises à jour et optimisation de vos smartphones.', auteur:'Omer Phambu'},
+  {img:'000maintenance-informatique.webp', title:'Maintenance informatique', desc:'Diagnostic et réparation rapide de vos ordinateurs pour garantir performance et sécurité.', auteur:'Pétronie Julia Mabika'},
+  {img:'loi.png', title:'Création de logos professionnels', desc:'Design de logos uniques et modernes pour entreprises et particuliers.', auteur:'Omer Phambu et Pétronie Julia Mabika'}
+];
+
+const container = document.getElementById('photos-container');
+realizations.forEach((r,i)=>{
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `<img src="${r.img}" alt="${r.title}"><h3>${r.title}</h3><p>${r.desc}</p><p>Réalisé par : <strong>${r.auteur}</strong></p>`;
+  container.appendChild(card);
+
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.id = `modal${i}`;
+  modal.innerHTML = `<div class="modal-content"><span class="close-btn" onclick="closeModal('modal${i}')">&times;</span><h3>${r.title}</h3><img src="${r.img}" alt="${r.title}"><p>${r.desc}</p></div>`;
+  document.body.appendChild(modal);
+
+  card.addEventListener('click',()=>openModal(`modal${i}`));
+});
+
+function openModal(id){document.getElementById(id).style.display='block';}
+function closeModal(id){document.getElementById(id).style.display='none';}
+
+// ===== SLIDER AUTOMATIQUE =====
+let slides = document.querySelectorAll('.slide');
+let current = 0;
+function nextSlide() {
+  slides[current].classList.remove('active');
+  current = (current + 1) % slides.length;
+  slides[current].classList.add('active');
+}
+let sliderInterval = setInterval(nextSlide, 5000);
+slides.forEach(slide => {
+  slide.addEventListener('mouseover', () => clearInterval(sliderInterval));
+  slide.addEventListener('mouseout', () => sliderInterval = setInterval(nextSlide, 5000));
+});
+</script>
+
+</body>
+</html>
